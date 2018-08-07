@@ -1,0 +1,99 @@
+package com.robert.chatapp.Entity;
+
+import com.robert.chatapp.Embeddable.UserGroupId;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "user_to_group")
+public class UserGroup {
+
+    @EmbeddedId
+    private UserGroupId id;
+
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                    CascadeType.PERSIST, CascadeType.REFRESH})
+    @MapsId("userId")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                    CascadeType.PERSIST, CascadeType.REFRESH})
+    @MapsId("groupId")
+    private Group group;
+
+    @Column(name = "user_type_id")
+    private int userTypeId;
+
+    @Column(name = "is_blocked")
+    @GeneratedValue(generator = "0")
+    private boolean isBlocked;
+
+    public UserGroup() {
+    }
+
+    public UserGroup(User user, Group group) {
+        this.user = user;
+        this.group = group;
+        this.id = new UserGroupId(user.getId(), group.getId());
+    }
+
+    public UserGroupId getId() {
+        return id;
+    }
+
+    public void setId(UserGroupId id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public int getUserTypeId() {
+        return userTypeId;
+    }
+
+    public void setUserTypeId(int userTypeId) {
+        this.userTypeId = userTypeId;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+        UserGroup userGroup = (UserGroup) o;
+        return  Objects.equals(user, userGroup.user) &&
+                Objects.equals(group, userGroup.group);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(user, group);
+    }
+}
