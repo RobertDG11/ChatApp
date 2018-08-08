@@ -1,7 +1,7 @@
 package com.robert.chatapp.Entity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
@@ -47,6 +47,14 @@ public class User {
     @GeneratedValue(generator = "0")
     private boolean isActive;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                    CascadeType.PERSIST, CascadeType.REFRESH},
+            orphanRemoval = true
+    )
+    private List<UserGroup> groups = new ArrayList<>();
+
     public User(String firstName, String lastName, String username) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -55,6 +63,28 @@ public class User {
     }
 
     public User() {
+    }
+
+    public void addGroup(Group group) {
+        UserGroup userGroup = new UserGroup(this, group);
+        groups.add(userGroup);
+        group.getUsers().add(userGroup);
+    }
+
+    public void removeGroup(Group group) {
+        for (Iterator<UserGroup> iterator = groups.iterator();
+                iterator.hasNext(); ) {
+            UserGroup userGroup = iterator.next();
+
+            if (userGroup.getUser().equals(this) &&
+                    userGroup.getGroup().equals(group)) {
+
+                iterator.remove();
+                userGroup.getGroup().getUsers().remove(userGroup);
+                userGroup.setUser(null);
+                userGroup.setGroup(null);
+            }
+        }
     }
 
     public int getId() {
@@ -145,6 +175,29 @@ public class User {
         isActive = active;
     }
 
+    public List<UserGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<UserGroup> groups) {
+        this.groups = groups;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(firstName, lastName);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -155,7 +208,7 @@ public class User {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
-                ", notificatipnType='" + notificationType + '\'' +
+                ", notificationType='" + notificationType + '\'' +
                 ", dateCreated='" + dateCreated + '\'' +
                 ", confirmationToken='" + confirmationToken + '\'' +
                 ", isActive=" + isActive +

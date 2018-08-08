@@ -25,6 +25,12 @@
     <property name="current_session_context_class">thread</property>
 
     <mapping class="com.robert.chatapp.Entity.User"/>
+    <mapping class="com.robert.chatapp.Entity.Group"/>
+    <mapping class="com.robert.chatapp.Entity.UserGroup"/>
+    <mapping class="com.robert.chatapp.Entity.UserType"/>
+    <mapping class="com.robert.chatapp.Entity.Privilege"/>
+    <mapping class="com.robert.chatapp.Entity.Notification"/>
+    <mapping class="com.robert.chatapp.Entity.Message"/>
 
 </session-factory>
 

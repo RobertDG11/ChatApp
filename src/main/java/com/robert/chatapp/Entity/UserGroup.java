@@ -3,6 +3,7 @@ package com.robert.chatapp.Entity;
 import com.robert.chatapp.Embeddable.UserGroupId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -24,8 +25,12 @@ public class UserGroup {
     @MapsId("groupId")
     private Group group;
 
-    @Column(name = "user_type_id")
-    private int userTypeId;
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                    CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_type_id")
+    @MapsId
+    private UserType userType;
 
     @Column(name = "is_blocked")
     @GeneratedValue(generator = "0")
@@ -64,12 +69,12 @@ public class UserGroup {
         this.group = group;
     }
 
-    public int getUserTypeId() {
-        return userTypeId;
+    public UserType getUserType() {
+        return userType;
     }
 
-    public void setUserTypeId(int userTypeId) {
-        this.userTypeId = userTypeId;
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     public boolean isBlocked() {
