@@ -49,9 +49,10 @@ public class Group {
     )
     private List<UserGroup> users = new ArrayList<>();
 
-    public Group(String name) {
+    public Group(String name, User createdBy) {
         this.name = name;
         this.dateCreated = new Date();
+        this.createdBy = createdBy;
     }
 
     public Group() {

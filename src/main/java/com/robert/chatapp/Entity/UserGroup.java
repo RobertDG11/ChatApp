@@ -29,7 +29,6 @@ public class UserGroup {
             cascade = {CascadeType.DETACH, CascadeType.MERGE,
                     CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_type_id")
-    @MapsId
     private UserType userType;
 
     @Column(name = "is_blocked")

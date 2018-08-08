@@ -21,20 +21,17 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY,
         cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    @MapsId
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
-    @MapsId
     private Group group;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE,
                     CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "notification_id")
-    @MapsId
     private Notification notification;
 
     public Message(String messageBody) {
