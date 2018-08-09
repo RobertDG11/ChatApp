@@ -32,8 +32,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "notification_type")
-    @GeneratedValue(generator = "email")
+    @Column(name = "notification_type",
+    insertable = false)
     private String notificationType;
 
     @Column(name = "date_created")
@@ -43,8 +43,8 @@ public class User {
             unique = true)
     private String confirmationToken;
 
-    @Column(name = "is_active")
-    @GeneratedValue(generator = "0")
+    @Column(name = "is_active",
+    insertable = false)
     private boolean isActive;
 
     @OneToMany(
@@ -55,10 +55,13 @@ public class User {
     )
     private List<UserGroup> groups = new ArrayList<>();
 
-    public User(String firstName, String lastName, String username) {
+    public User(String firstName, String lastName, String username, String emailAddress, String phoneNumber, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
+        this.emailAddress = emailAddress;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
         dateCreated = new Date();
     }
 
@@ -207,11 +210,8 @@ public class User {
                 ", username='" + username + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
                 ", notificationType='" + notificationType + '\'' +
                 ", dateCreated='" + dateCreated + '\'' +
-                ", confirmationToken='" + confirmationToken + '\'' +
-                ", isActive=" + isActive +
                 '}';
     }
 }

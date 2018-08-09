@@ -38,7 +38,6 @@ public class Group {
         cascade = {CascadeType.DETACH, CascadeType.MERGE,
         CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "created_by")
-    @MapsId
     private User createdBy;
 
     @OneToMany(
@@ -49,10 +48,9 @@ public class Group {
     )
     private List<UserGroup> users = new ArrayList<>();
 
-    public Group(String name, User createdBy) {
+    public Group(String name) {
         this.name = name;
         this.dateCreated = new Date();
-        this.createdBy = createdBy;
     }
 
     public Group() {
