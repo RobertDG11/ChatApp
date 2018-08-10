@@ -1,6 +1,6 @@
 package com.robert.chatapp.Controller;
 
-import com.robert.chatapp.Dao.UserDAOImpl;
+import com.robert.chatapp.Dao.UserDAO;
 import com.robert.chatapp.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserDAOImpl userDAO;
+    private final UserDAO userDAO;
 
     @Autowired
-    public UserController(UserDAOImpl userDAO) {
+    public UserController(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
@@ -24,6 +24,7 @@ public class UserController {
     public String listCustomers(Model model) {
 
         List<User> users = userDAO.getUsers();
+        users.remove(0);
 
         model.addAttribute("users", users);
 

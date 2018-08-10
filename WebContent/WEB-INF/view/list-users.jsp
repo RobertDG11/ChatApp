@@ -21,7 +21,6 @@
 
             <table>
                 <tr>
-                    <th>Id</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Username</th>
@@ -34,7 +33,6 @@
                 <c:forEach var="tempUser" items="${users}">
 
                     <tr>
-                        <td>${tempUser.id}</td>
                         <td>${tempUser.firstName}</td>
                         <td>${tempUser.lastName}</td>
                         <td>${tempUser.username}</td>
